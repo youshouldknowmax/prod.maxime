@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@prod. maxime</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+    }
+
+    .bg {
+      background: url('download.gif') center/cover no-repeat;
+      transform: scale(1.05);
+      transition: transform 0.15s ease-out;
+      will-change: transform;
+      opacity: 0.85;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 0.5px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 4px 20px -2px rgba(0,0,0,0.15), inset 0 0 12px 0 rgba(255,255,255,0.2);
+      transition: all 0.4s ease;
+    }
+
+    .glass::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -150%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.8s ease;
+      pointer-events: none;
+    }
+
+    .glass:hover::before { left: 150%; }
+
+    .glass:hover {
+      transform: translateY(-2px) scale(1.02);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .insta-link {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .insta-link:hover {
+      color: #ffffff;
+    }
+
+    .footer {
+      position: relative;
+      z-index: 10;
+      padding-bottom: 1.5rem;
+      padding-top: 0.5rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-black text-white h-screen w-screen overflow-hidden flex flex-col justify-between items-center relative select-none">
+
+  <div id="bg" class="absolute inset-0 bg z-0"></div>
+
+  <main class="relative z-10 flex-1 flex items-center justify-center px-4">
+    <a href="https://www.vvault.app/prods-yskm" target="_blank" class="glass relative overflow-hidden rounded-full px-6 py-2.5 flex items-center gap-2.5 group">
+      <span class="text-sm md:text-base font-medium">store</span>
+      <i class="fa-solid fa-arrow-right text-xs opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"></i>
+    </a>
+  </main>
+
+  <footer class="footer">
+    <a href="https://instagram.com/youshouldknowmax" target="_blank" class="insta-link">
+      <i class="fa-brands fa-instagram text-sm"></i>
+      <span>@youshouldknowmax</span>
+    </a>
+    <div>
+      <p>© prod. maxime all rights reserved</p>
+      <p class="text-white/60 text-[11px]">art by waneella</p>
+    </div>
+  </footer>
+
+  <script>
+    const bg = document.getElementById('bg');
+    document.addEventListener('mousemove', (e) => {
+      const x = ((e.clientX / window.innerWidth) - 0.5) * 24;
+      const y = ((e.clientY / window.innerHeight) - 0.5) * 24;
+      bg.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
+    });
+  </script>
+
+</body>
+</html>
