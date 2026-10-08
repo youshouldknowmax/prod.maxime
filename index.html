@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>@prod. maxime</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,8 +16,8 @@
 
     .bg {
       background: url('download.gif') center/cover no-repeat;
-      transform: scale(1.05);
-      transition: transform 0.15s ease-out;
+      transform: scale(1.1);
+      transition: transform 0.1s ease-out;
       will-change: transform;
       opacity: 0.85;
     }
@@ -28,7 +28,8 @@
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       border: 0.5px solid rgba(255, 255, 255, 0.35);
       box-shadow: 0 4px 20px -2px rgba(0,0,0,0.15), inset 0 0 12px 0 rgba(255,255,255,0.2);
-      transition: all 0.4s ease;
+      transition: all 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .glass::before {
@@ -41,32 +42,41 @@
       pointer-events: none;
     }
 
-    .glass:hover::before { left: 150%; }
+    @media (hover: hover) {
+      .glass:hover::before { left: 150%; }
+      .glass:hover {
+        transform: translateY(-2px) scale(1.02);
+        background: rgba(255, 255, 255, 0.16);
+        border-color: rgba(255, 255, 255, 0.45);
+      }
+    }
 
-    .glass:hover {
-      transform: translateY(-2px) scale(1.02);
-      background: rgba(255, 255, 255, 0.16);
-      border-color: rgba(255, 255, 255, 0.45);
+    .glass:active {
+      transform: scale(0.98);
     }
 
     .insta-link {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.75rem;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.85rem;
       font-weight: 500;
-      transition: color 0.2s ease;
+      padding: 0.4rem 0.8rem;
+      border-radius: 9999px;
+      transition: color 0.2s ease, background-color 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .insta-link:hover {
+    .insta-link:active, .insta-link:hover {
       color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .footer {
       position: relative;
       z-index: 10;
-      padding-bottom: 1.5rem;
+      padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
       padding-top: 0.5rem;
       text-align: center;
       color: rgba(255, 255, 255, 0.75);
@@ -75,37 +85,50 @@
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
+      width: 100%;
     }
   </style>
 </head>
-<body class="bg-black text-white h-screen w-screen overflow-hidden flex flex-col justify-between items-center relative select-none">
+<body class="bg-black text-white min-h-dvh w-screen overflow-hidden flex flex-col justify-between items-center relative select-none">
 
   <div id="bg" class="absolute inset-0 bg z-0"></div>
 
-  <main class="relative z-10 flex-1 flex items-center justify-center px-4">
-    <a href="https://www.vvault.app/prods-yskm" target="_blank" class="glass relative overflow-hidden rounded-full px-6 py-2.5 flex items-center gap-2.5 group">
-      <span class="text-sm md:text-base font-medium">store</span>
+  <main class="relative z-10 flex-1 flex items-center justify-center px-4 w-full">
+    <a href="https://www.vvault.app/prods-yskm" target="_blank" class="glass relative overflow-hidden rounded-full px-8 py-3.5 md:px-6 md:py-2.5 flex items-center gap-3 group">
+      <span class="text-base md:text-base font-medium tracking-wide">store</span>
       <i class="fa-solid fa-arrow-right text-xs opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"></i>
     </a>
   </main>
 
-  <footer class="footer">
+  <footer class="footer px-4">
     <a href="https://instagram.com/youshouldknowmax" target="_blank" class="insta-link">
-      <i class="fa-brands fa-instagram text-sm"></i>
+      <i class="fa-brands fa-instagram text-base"></i>
       <span>@youshouldknowmax</span>
     </a>
-    <div>
-      <p>© prod. maxime all rights reserved</p>
+    <div class="space-y-0.5">
+      <p class="text-xs">© prod. maxime all rights reserved</p>
       <p class="text-white/60 text-[11px]">art by waneella</p>
     </div>
   </footer>
 
   <script>
     const bg = document.getElementById('bg');
+
+    // Mouvement à la souris (pour PC)
     document.addEventListener('mousemove', (e) => {
-      const x = ((e.clientX / window.innerWidth) - 0.5) * 24;
-      const y = ((e.clientY / window.innerHeight) - 0.5) * 24;
-      bg.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
+      const x = ((e.clientX / window.innerWidth) - 0.5) * 20;
+      const y = ((e.clientY / window.innerHeight) - 0.5) * 20;
+      bg.style.transform = `scale(1.1) translate(${x}px, ${y}px)`;
+    });
+
+    // Mouvement avec l'inclinaison du téléphone (Gyroscopie mobile)
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma !== null && e.beta !== null) {
+        // Limiter le mouvement pour éviter les saccades
+        const x = Math.max(-15, Math.min(15, e.gamma / 2));
+        const y = Math.max(-15, Math.min(15, (e.beta - 45) / 2));
+        bg.style.transform = `scale(1.1) translate(${x}px, ${y}px)`;
+      }
     });
   </script>
 
